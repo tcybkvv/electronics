@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система учёта электроники</title>
+    <link rel="shortcut icon" href="images/icon-favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="fonts/Geometria/stylesheet.css">
+    <link rel="stylesheet" href="css/bundle.css">
+</head>
+<body>
+<div class="wrapper">
+    <header class="menu">
+        <div class="container">
+            <div class="menu__inner">
+                <a href="#hero" class="menu__icon">
+                    <img src="images/icon-logo-header.svg" alt="Electronics">
+                </a>
+                <button class="menu__hamburger" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <nav class="menu__nav">
+                    <ul>
+                        <li><a href="#er-diagram" class="menu__title--first">ER Диаграмма</a></li>
+                        <li><a href="#tables" class="menu__title--first">Таблицы</a></li>
+                        <li><a href="#queries" class="menu__title--first">SQL Запросы</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="hero__content">
+            <h1 class="hero__header--first">Система учета <span>электроники и техники</span></h1>
+            <p>Изучите ER диаграмму, таблицы по базе данных и SQL запросы для электроники и техники.</p>
+            <a href="#er-diagram" class="hero__cta--pulse">Посмотреть ER-диаграмму</a>
+        </div>
+    </section>
+
+    <section id="er-diagram" class="er-diagram">
+        <div class="container">
+            <h2 class="er-diagram__header--second">ER Диаграмма</h2>
+            <div id="er-container" class="er-diagram__container"></div>
+        </div>
+    </section>
+
+    <section id="tables" class="tables">
+        <div class="container">
+            <h2 class="tables__header--second">Таблицы БД</h2>
+            <div class="tables__container">
+                <h3 class="tables__header--inner">Сотрудники</h3>
+                <div class="table-wrapper">
+                    <table id="employees">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>position</th>
+                            <th>phone</th>
+                            <th>email</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 class="tables__header--inner">Клиенты Chosen Ones</h3>
+                <div class="table-wrapper">
+                    <table id="clients">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>phone</th>
+                            <th>email</th>
+                            <th>address</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 class="tables__header--inner">Склады</h3>
+                <div class="table-wrapper">
+                    <table id="warehouse">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>location</th>
+                            <th>description</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 class="tables__header--inner">Продукты</h3>
+                <div class="table-wrapper">
+                    <table id="products">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>description</th>
+                            <th>category</th>
+                            <th>price</th>
+                            <th>quantity</th>
+                            <th>warehouse_id</th>
+                            <th>is_online</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 class="tables__header--inner">Накладные</h3>
+                <div class="table-wrapper">
+                    <table id="invoices">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>client_id</th>
+                            <th>employee_id</th>
+                            <th>date</th>
+                            <th>total_amount</th>
+                            <th>delivery_required</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 class="tables__header--inner">Позиции в накладной</h3>
+                <div class="table-wrapper">
+                    <table id="invoice_items">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>invoice_id</th>
+                            <th>product_id</th>
+                            <th>quantity</th>
+                            <th>unit_price</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 class="tables__header--inner">Доставка</h3>
+                <div class="table-wrapper">
+                    <table id="delivery">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>invoice_id</th>
+                            <th>status</th>
+                            <th>delivery_date</th>
+                            <th>delivery_address</th>
+                            <th>courier_name</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="queries" class="queries">
+        <div class="container">
+            <h2 class="queries__header--second">SQL Запросы</h2>
+            <div class="queries__boxes">
+                <div class="query-box">
+                    <pre class="query-box__query--select">select c.name as client_name, i.id as invoice_id, i.date, i.total_amount from clients c left join invoices i on c.id = i.client_id;</pre>
+                    <p>Выводит список всех клиентов и их заказы</p>
+                    <div class="table-wrapper">
+                        <table id="clients-invoices">
+                            <thead>
+                            <tr><th>client_name</th><th>invoice_id</th><th>date</th><th>total_amount</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="query-box">
+                    <pre class="query-box__query--select">select p.name, p.quantity, w.location from products p join warehouse w on p.warehouse_id = w.id order by p.quantity desc;</pre>
+                    <p>Показывает список товаров с их количеством и местоположением склада.</p>
+                    <div class="table-wrapper">
+                        <table id="products-warehouse">
+                            <thead>
+                            <tr><th>name</th><th>quantity</th><th>location</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="query-box">
+                    <pre class="query-box__query--select">select name, price, quantity from products where is_online = true;</pre>
+                    <p>Выводит онлайн-товары, которые доступны на сайте: название, цену и количество.</p>
+                    <div class="table-wrapper">
+                        <table id="online-products">
+                            <thead>
+                            <tr><th>name</th><th>price</th><th>quantity</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="query-box">
+                    <pre class="query-box__query--select">select i.id as invoice_id, d.status, d.delivery_date, d.courier_name from invoices i join delivery d on i.id = d.invoice_id where i.delivery_required = true;</pre>
+                    <p>Показывает накладные: их статус, дату доставки и имя курьера.</p>
+                    <div class="table-wrapper">
+                        <table id="invoices-delivery">
+                            <thead>
+                            <tr><th>invoice_id</th><th>status</th><th>delivery_date</th><th>courier_name</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="query-box">
+                    <pre class="query-box__query--select">select p.name, sum(ii.quantity) as total_sold from invoice_items ii join products p on ii.product_id = p.id group by p.id order by total_sold desc limit 15;</pre>
+                    <p>Выводит топ-15 самых продаваемых товаров по суммарному количеству продаж.</p>
+                    <div class="table-wrapper">
+                        <table id="top-products">
+                            <thead>
+                            <tr><th>name</th><th>total_sold</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="query-box">
+                    <pre class="query-box__query--select">select e.name, count(i.id) AS sales_count, sum(i.total_amount) as total_sales from employees e join invoices i on e.id = i.employee_id group by e.id;</pre>
+                    <p>Показывает, сколько продаж сделал каждый сотрудник и на какую сумму всего.</p>
+                    <div class="table-wrapper">
+                        <table id="employee-sales">
+                            <thead>
+                            <tr><th>name</th><th>sales_count</th><th>total_sales</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__items">
+                <div class="footer__about-me">
+                    <a href="#hero" class="footer__icon">
+                        <img src="images/icon-logo-footer.svg" alt="Icon" class="footer__icon"/>
+                    </a>
+                    <p class="footer__text--about-me">Designed/Made by Toichubekov Bakdoolot</p>
+                    <div class="footer__social-media">
+                        <a href="https://www.instagram.com/tcybkvv" target="_blank">
+                            <img src="images/icon-footer-instagram.svg" alt="Instagram" />
+                        </a>
+                        <a href="https://t.me/tcybkv" target="_blank">
+                            <img src="images/icon-footer-telegram.svg" alt="Telegram" />
+                        </a>
+                        <a href="https://www.linkedin.com/in/bakdoolot-toichubekov-a5082635b/" target="_blank">
+                            <img src="images/icon-footer-linkedin.svg" alt="LinkedIn" />
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61550358817667" target="_blank">
+                            <img src="images/icon-footer-facebook.svg" alt="Facebook" />
+                        </a>
+                    </div>
+                    <p class="footer__copyright">Copyright © <span id="year"></span> Cистема учета электроники и техники</p>
+                </div>
+                <div class="footer__about">
+                    <div class="footer__about-item">
+                        <span class="footer__title--about">Разделы</span>
+                        <ul>
+                            <li><a href="#er-diagram">ER диаграмма</a></li>
+                            <li><a href="#tables">Таблицы</a></li>
+                            <li><a href="#queries">SQL Запросы</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script src="https://unpkg.com/mermaid@10.9.3/dist/mermaid.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
