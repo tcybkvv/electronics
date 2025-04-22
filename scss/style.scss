@@ -1,0 +1,779 @@
+@import 'vars';
+@import 'core';
+
+// Mixins
+
+@mixin transition($properties...) {
+    transition: $properties 0.4s ease;
+}
+
+@mixin header($size, $margin-bottom: 30px) {
+    font-size: $size;
+    text-align: center;
+    margin-bottom: $margin-bottom;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+// Placeholders
+
+%flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+%section-padding {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+// Menu
+
+.menu {
+    position: fixed;
+    width: 100vw;
+    padding: 10px 0;
+    background-color: transparent;
+    @include transition(background-color);
+    z-index: 9;
+    animation: fadeInDown 1s ease-out;
+
+    &__inner {
+        height: $header-height;
+        @extend %flex-center;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    &__icon {
+        width: 170px;
+
+        img {
+            @include transition(transform);
+        }
+
+        &:hover {
+            img {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    &__hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        z-index: 100;
+
+        span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: $white;
+            margin: 5px 0;
+            @include transition(all 0.3s ease);
+        }
+
+        &.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        &.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        &.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+    }
+
+    &__nav {
+        @extend %flex-center;
+
+        ul {
+            @extend %flex-center;
+            gap: $gap-default;
+
+            li {
+                @include transition(transform);
+                position: relative;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    &__title--first {
+        color: $white;
+        font-size: $font-size-title;
+        font-weight: 500;
+        position: relative;
+        display: inline-block;
+        transition: color 0.3s ease;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -6px;
+            left: 0;
+            background: linear-gradient(to right, $glow);
+            transition: width 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        &:hover,
+        &:focus {
+            color: $glow;
+            outline: none;
+
+            &::after {
+                width: 100%;
+                box-shadow: 0 0 10px $glow, 0 0 20px $glow;
+            }
+        }
+    }
+}
+
+// Menu Animation
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Hero
+
+.hero {
+    height: 100vh;
+    @extend %flex-center;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/image-hero-background.webp') no-repeat center center/cover;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+
+    &__content {
+        z-index: 2;
+        max-width: 800px;
+        animation: fadeInUp 1s ease-out 0.3s both;
+
+        span {
+            color: $blue;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 28px;
+            margin-bottom: 24px;
+            color: $white;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+    }
+
+    &__header--first {
+        @include header($font-size-header-first, 20px);
+        animation: fadeInUp 1s ease-out both;
+    }
+
+    &__cta--pulse {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: $blue;
+        color: $white;
+        font-size: 1rem;
+        border-radius: $border-radius;
+        position: relative;
+        animation: pulse 1.5s infinite ease-in-out;
+        @include transition(background-color, box-shadow);
+
+        &:hover {
+            animation: none;
+            background-color: $darkBlue;
+            box-shadow: 0 0 20px $glow;
+        }
+
+        &:focus {
+            outline: 2px solid $glow;
+            outline-offset: 2px;
+        }
+    }
+}
+
+// Hero Animations
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba($glow, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba($glow, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba($glow, 0);
+    }
+}
+
+// ER Diagram
+
+.er-diagram {
+    @extend %section-padding;
+
+    &__header--second {
+        @include header($font-size-header-second);
+        animation: fadeIn 1s ease-out;
+    }
+
+    &__container {
+        text-align: center;
+
+        svg {
+            display: inline-block;
+            max-width: 100%;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.9);
+            @include transition(opacity, transform, filter);
+            animation: zoomIn 1s ease-out 0.5s both;
+
+            &:hover {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 10px rgba($glow, 0.5));
+            }
+        }
+    }
+}
+
+// ER Diagram Animation
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// Tables
+
+.tables {
+    @extend %section-padding;
+    background-color: $darkerBlack;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    &__header--second {
+        @include header($font-size-header-second);
+        animation: fadeIn 1s ease-out;
+    }
+
+    &__header--inner {
+        font-size: $font-size-inner-header;
+        margin-bottom: -15px;
+        animation: fadeIn 1s ease-out 0.3s both;
+    }
+}
+
+// Table Wrapper for Scrollability
+
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+// Queries
+
+.queries {
+    @extend %section-padding;
+
+    &__header--second {
+        @include header($font-size-header-second);
+        animation: fadeIn 1s ease-out;
+    }
+
+    &__boxes {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+.query-box {
+    background-color: $darkerBlack;
+    padding: 15px;
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    @include transition(transform);
+    animation: fadeInUp 1s ease-out both;
+
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{0.2 * $i}s;
+        }
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    p {
+        font-size: $font-size-title;
+        font-weight: 500;
+    }
+
+    &__query--select {
+        background-color: #282c34;
+        color: #f8f8f2;
+        padding: 12px;
+        border-radius: $border-radius;
+        overflow-x: auto;
+        white-space: pre;
+        @include transition(box-shadow);
+
+        &:hover {
+            box-shadow: inset 0 0 10px rgba($blue, 0.2);
+        }
+    }
+}
+
+// Footer
+
+.footer {
+    background: $darkBlack;
+    padding: 40px 0;
+    animation: fadeIn 1s ease-out;
+
+    &__items {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 30px;
+    }
+
+    &__about-me {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    &__social-media {
+        display: flex;
+        gap: 12px;
+        @include transition(transform);
+
+        img {
+            width: 22px;
+
+            &:hover {
+                cursor: pointer;
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    &__icon {
+        width: 140px;
+        margin-bottom: -5px;
+    }
+
+    &__text--about-me,
+    &__copyright {
+        color: $white;
+        font-size: 14px;
+    }
+
+    &__about {
+        display: flex;
+        gap: 20px;
+    }
+
+    &__about-item {
+        width: 160px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        a {
+            color: $gray;
+            font-size: 14px;
+            @include transition(color);
+
+            &:hover {
+                color: $white;
+            }
+        }
+    }
+
+    &__title--about {
+        color: $white;
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}
+
+// Tables Style
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.5s both;
+
+    &, th, td {
+        border: 1px solid $gray;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        @include transition(background-color, padding-left);
+        font-size: 14px;
+    }
+
+    tr {
+        @include transition(background-color, padding-left);
+        clip-path: inset(0);
+    }
+
+    tr:hover {
+        background-color: rgba($blue, 0.1);
+        padding-left: 5px;
+    }
+}
+
+// General Animation
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+// Menu Slide Animation
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+// Scroll Lock
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+// Responsive Design
+
+@media (max-width: 1200px) {
+    .container {
+        width: 90%;
+    }
+
+    .hero__content {
+        max-width: 600px;
+    }
+
+    .footer__items {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    $font-size-header-first: 36px;
+    $font-size-header-second: 32px;
+    $font-size-inner-header: 22px;
+    $font-size-title: 14px;
+
+    .hero {
+        height: 80vh;
+        padding: 0 15px;
+
+        &__header--first {
+            @include header($font-size-header-first, 16px);
+        }
+
+        &__content p {
+            font-size: 14px;
+            line-height: 24px;
+            margin-bottom: 20px;
+        }
+
+        &__cta--pulse {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+
+    .menu {
+        padding: 8px 0;
+        background-color: $darkBlack;
+
+        &__inner {
+            height: 50px;
+        }
+
+        &__icon {
+            width: 120px;
+        }
+
+        &__hamburger {
+            display: block;
+        }
+
+        &__nav {
+            display: none;
+            position: fixed;
+            top: $header-height;
+            left: 0;
+            width: 100%;
+            height: auto;
+            max-height: calc(100vh - $header-height);
+            background: rgba(16, 16, 16, 0.98);
+            z-index: 99;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(-100%);
+            @include transition(opacity 0.5s ease, transform 0.5s ease);
+            overflow-y: auto;
+
+            &.active {
+                display: block;
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            ul {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 20px 0;
+            }
+
+            li {
+                text-align: center;
+
+                a {
+                    font-size: 20px;
+                    color: $white;
+                    @include transition(color 0.3s ease, transform 0.3s ease);
+                    display: block;
+                    padding: 10px 0;
+                }
+
+                &:hover a {
+                    color: $glow;
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    .er-diagram,
+    .tables,
+    .queries {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    .er-diagram__header--second,
+    .tables__header--second,
+    .queries__header--second {
+        @include header($font-size-header-second, 20px);
+    }
+
+    .tables__header--inner {
+        font-size: $font-size-inner-header;
+        margin-bottom: -10px;
+    }
+
+    .query-box {
+        padding: 10px;
+
+        p {
+            font-size: $font-size-title;
+        }
+
+        &__query--select {
+            padding: 10px;
+            font-size: 12px;
+        }
+    }
+
+    .footer {
+        padding: 30px 0;
+
+        &__items {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        &__about-me {
+            max-width: 100%;
+            align-items: center;
+        }
+
+        &__about {
+            justify-content: center;
+            width: 100%;
+        }
+
+        &__about-item {
+            width: 100%;
+            max-width: 200px;
+            align-items: center;
+        }
+
+        &__icon {
+            width: 120px;
+        }
+    }
+
+    table th, table td {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    $font-size-header-first: 28px;
+    $font-size-header-second: 24px;
+    $font-size-inner-header: 18px;
+
+    .hero {
+        height: 70vh;
+
+        &__header--first {
+            @include header($font-size-header-first, 12px);
+        }
+
+        &__content p {
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        &__cta--pulse {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+    }
+
+    .er-diagram__header--second,
+    .tables__header--second,
+    .queries__header--second {
+        @include header($font-size-header-second, 16px);
+    }
+
+    .tables__header--inner {
+        font-size: $font-size-inner-header;
+    }
+
+    .footer {
+        &__social-media img {
+            width: 20px;
+        }
+
+        &__text--about-me,
+        &__copyright {
+            font-size: 12px;
+        }
+
+        &__about-item {
+            width: 140px;
+
+            a {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+// Reduced Motion
+
+@media (prefers-reduced-motion: reduce) {
+    .menu,
+    .hero__content,
+    .hero__content p,
+    .hero__header--first,
+    .hero__cta--pulse,
+    .er-diagram__header--second,
+    .er-diagram__container svg,
+    .tables__header--second,
+    .tables__header--inner,
+    .queries__header--second,
+    .query-box,
+    table,
+    .footer,
+    .menu__nav {
+        animation: none;
+        transition: none;
+    }
+}

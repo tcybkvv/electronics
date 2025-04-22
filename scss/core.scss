@@ -1,0 +1,68 @@
+@import 'vars';
+
+// Размеры
+
+$container-width: 1300px;
+$header-height: 60px;
+$gap-default: 24px;
+$border-radius: 8px;
+
+// Шрифты
+
+$font-family: 'Geometria', sans-serif;
+$font-size-base: 14px;
+$font-size-title: 16px;
+$font-size-header-first: 54px;
+$font-size-header-second: 50px;
+$font-size-inner-header: 26px;
+
+html {
+    font-family: $font-family;
+    font-size: $font-size-base;
+    font-weight: 400;
+    scroll-behavior: smooth;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.wrapper {
+    background-color: $black;
+    color: $white;
+}
+
+.container {
+    width: $container-width;
+    margin: 0 auto;
+}
+
+// Стили скроллбара
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: $white;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: $border-radius;
+    background: $blue;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $darkBlue;
+}
